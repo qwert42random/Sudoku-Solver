@@ -1,4 +1,4 @@
-
+import numpy as np
 outputFile = open("output.txt", "w")
 
 # Parse the input file to obtain matrix of sudoku.
@@ -22,8 +22,13 @@ def parseInput(fileName):
         matrix.append(matrix_line)
         matrix_line = []
 
-    return matrix
+    return np.matrix(matrix)
 
 inputMatrix = parseInput("testInput.txt")
 print(inputMatrix)
+print()
 
+# Print first row of grids of puzzle.
+for i in [0, 3, 6]:
+    print(inputMatrix[i:i+3, 0:3])
+    print()
