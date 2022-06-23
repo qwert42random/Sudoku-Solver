@@ -67,7 +67,8 @@ class Node:
         [possibleNumbers.remove(x) for x in gridMatrix[gridPos[0]][gridPos[1]]]
 
         # Remove numbers from possible numbers if they are in the same row.
-        print(self.matrix[0])
+        [possibleNumbers.remove(x) for x in self.matrix[self.coord[0]] if x in possibleNumbers]
+        print(possibleNumbers)
         # Remove numbers from possible numbers if they are in the same column.
         # print(possibleNumbers)
         return possibleNumbers
