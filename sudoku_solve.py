@@ -19,6 +19,7 @@ def parseInput(fileName):
 
     return matrix
 
+# Obtain list of numbers in each grid.
 def obtainGrids(matrix):
     grids = []
 
@@ -42,30 +43,40 @@ def obtainGrids(matrix):
     
     return grids
 
+class Node:
+
+    def __init__(self, matrix, xPos, yPos):
+
+        self.visited = False
+        self.matrix = matrix 
+
+        # The current position being calculated.
+        self.coord = (xPos, yPos)
+
+        # Possible outcomes for the current position.
+        self.children = []
+
+    # Calculate the possible numbers for the next child.
+    def prunePossibleNumbers(self, gridMatrix):
+        possibleNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+        # Calculate which grid the current number is in.
+        gridPos = (self.coord[0] // 3, self.coord[1] // 3)
+
+        # Remove numbers from possibleNumbers if they are in the same grid.
+        [possibleNumbers.remove(x) for x in gridMatrix[gridPos[0]][gridPos[1]]]
+
+        # Remove numbers from possible numbers if they are in the same row.
+        print(self.matrix[0])
+        # Remove numbers from possible numbers if they are in the same column.
+        # print(possibleNumbers)
+        return possibleNumbers
+
+    def createChildren(self):
+        pass
+
 inputMatrix = parseInput("testInput.txt")
 sudokuGrids = obtainGrids(inputMatrix)
-print(sudokuGrids)
-
-exit()
-
-# Print second row of grids of puzzle.
-for i in [0, 3, 6]:
-    print(inputMatrix[3:6, i:i+3])
-    print()
-
-# Print third row of grids of puzzle.
-for i in [0, 3, 6]:
-    print(inputMatrix[6:9, i:i+3])
-    print()
-
-possibleNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
-
-class node:
-    def __init__(self, matrix):
-        self.visited = False
-        self.possibleNumbers = []
-        self.matrix = matrix 
-        self.x = None
-        self.y = None
-        self.children = []
-        pass
+node = Node(inputMatrix, 0, 2)
+node.prunePossibleNumbers(sudokuGrids)
+# print(sudokuGrids)
