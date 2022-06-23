@@ -22,15 +22,28 @@ def parseInput(fileName):
 def obtainGrids(matrix):
     grids = []
 
-    # Print first row of grids of puzzle.
+    # Obtain first row of grids of puzzle.
     for i in range(0, 9, 3):
-        grids.append([inputMatrix[i:i+3, 0:3], inputMatrix[i:i+3, 3:6], inputMatrix[i:i+3, 6:9]])
+        firstGrid = inputMatrix[i:i+3, 0:3].ravel().tolist()
+        secondGrid = inputMatrix[i:i+3, 3:6].ravel().tolist()
+        thirdGrid = inputMatrix[i:i+3, 6:9].ravel().tolist()
+        gridList = [firstGrid, secondGrid, thirdGrid]
+
+        # Remove 0s from the list.
+        for index, grid in enumerate(gridList):
+            grid = list(dict.fromkeys(grid))
+
+            if 0 in grid:
+                grid.remove(0)
+
+            gridList[index] = grid
+
+        grids.append(gridList)
     
     return grids
 
 inputMatrix = parseInput("testInput.txt")
 sudokuGrids = obtainGrids(inputMatrix)
-print()
 print(sudokuGrids)
 
 exit()
