@@ -67,10 +67,13 @@ class Node:
         [possibleNumbers.remove(x) for x in gridMatrix[gridPos[0]][gridPos[1]]]
 
         # Remove numbers from possible numbers if they are in the same row.
-        [possibleNumbers.remove(x) for x in self.matrix[self.coord[0]] if x in possibleNumbers]
-        print(possibleNumbers)
+        [possibleNumbers.remove(x) for x in self.matrix[self.coord[1]] if x in possibleNumbers]
+        print(self.matrix[self.coord[1]])
+
         # Remove numbers from possible numbers if they are in the same column.
-        # print(possibleNumbers)
+        [possibleNumbers.remove(x) for x in self.matrix[0:, self.coord[0]] if x in possibleNumbers]
+        print(self.matrix[0:, self.coord[0]])
+
         return possibleNumbers
 
     def createChildren(self):
@@ -78,6 +81,6 @@ class Node:
 
 inputMatrix = parseInput("testInput.txt")
 sudokuGrids = obtainGrids(inputMatrix)
-node = Node(inputMatrix, 0, 2)
+node = Node(inputMatrix, 3, 0)
 node.prunePossibleNumbers(sudokuGrids)
 # print(sudokuGrids)
