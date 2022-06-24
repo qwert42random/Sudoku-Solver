@@ -83,4 +83,12 @@ inputMatrix = parseInput("testInput.txt")
 sudokuGrids = obtainGrids(inputMatrix)
 node = Node(inputMatrix, 3, 0)
 node.prunePossibleNumbers(sudokuGrids)
-# print(sudokuGrids)
+# print(sudokuGrids)# Main code.
+# Main code.
+if __name__ == "__main__":
+    inputMatrix = parseInput("testInput.txt")
+    sudokuGrids = obtainGrids(inputMatrix)
+    node = Node(inputMatrix, 3, 0)
+    node.prunePossibleNumbers(sudokuGrids)
+    # print(sudokuGrids)
+    pass
