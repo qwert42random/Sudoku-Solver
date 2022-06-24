@@ -19,42 +19,45 @@ def parseInput(fileName):
 
     return matrix
 
-# Obtain list of numbers in each grid.
-def obtainGrids(matrix):
-    grids = []
-
-    # Obtain first row of grids of puzzle.
-    for i in range(0, 9, 3):
-        firstGrid = inputMatrix[i:i+3, 0:3].ravel().tolist()
-        secondGrid = inputMatrix[i:i+3, 3:6].ravel().tolist()
-        thirdGrid = inputMatrix[i:i+3, 6:9].ravel().tolist()
-        gridList = [firstGrid, secondGrid, thirdGrid]
-
-        # Remove 0s from the list.
-        for index, grid in enumerate(gridList):
-            grid = list(dict.fromkeys(grid))
-
-            if 0 in grid:
-                grid.remove(0)
-
-            gridList[index] = grid
-
-        grids.append(gridList)
-    
-    return grids
 
 class Node:
+
+    # Obtain list of numbers in each grid.
+    def obtainGrids(self):
+        grids = []
+
+        # Obtain first row of grids of puzzle.
+        for i in range(0, 9, 3):
+            firstGrid = self.matrix[i:i+3, 0:3].ravel().tolist()
+            secondGrid = self.matrix[i:i+3, 3:6].ravel().tolist()
+            thirdGrid = self.matrix[i:i+3, 6:9].ravel().tolist()
+            gridList = [firstGrid, secondGrid, thirdGrid]
+
+            # Remove 0s from the list.
+            for index, grid in enumerate(gridList):
+                grid = list(dict.fromkeys(grid))
+
+                if 0 in grid:
+                    grid.remove(0)
+
+                gridList[index] = grid
+
+            grids.append(gridList)
+        
+        return grids
 
     def __init__(self, matrix, xPos, yPos):
 
         self.visited = False
-        self.matrix = matrix 
+        self.matrix = matrix
+        self.sudokuGrids = self.obtainGrids()
 
         # The current position being calculated.
         self.coord = (xPos, yPos)
 
         # Possible outcomes for the current position.
         self.children = []
+
 
     # Calculate the possible numbers for the next child.
     def prunePossibleNumbers(self, gridMatrix):
@@ -68,27 +71,21 @@ class Node:
 
         # Remove numbers from possible numbers if they are in the same row.
         [possibleNumbers.remove(x) for x in self.matrix[self.coord[1]] if x in possibleNumbers]
-        print(self.matrix[self.coord[1]])
 
         # Remove numbers from possible numbers if they are in the same column.
         [possibleNumbers.remove(x) for x in self.matrix[0:, self.coord[0]] if x in possibleNumbers]
-        print(self.matrix[0:, self.coord[0]])
 
         return possibleNumbers
 
     def createChildren(self):
         pass
 
-inputMatrix = parseInput("testInput.txt")
-sudokuGrids = obtainGrids(inputMatrix)
-node = Node(inputMatrix, 3, 0)
-node.prunePossibleNumbers(sudokuGrids)
-# print(sudokuGrids)# Main code.
+
 # Main code.
 if __name__ == "__main__":
     inputMatrix = parseInput("testInput.txt")
-    sudokuGrids = obtainGrids(inputMatrix)
     node = Node(inputMatrix, 3, 0)
-    node.prunePossibleNumbers(sudokuGrids)
+    print(node.sudokuGrids)
+    node.createChildren()
     # print(sudokuGrids)
     pass
