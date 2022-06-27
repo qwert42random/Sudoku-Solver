@@ -78,14 +78,30 @@ class Node:
         return possibleNumbers
 
     def createChildren(self):
-        pass
+        possibleAnswers = self.prunePossibleNumbers()
+
+        for answer in possibleAnswers:
+
+            # Create a matrix with the possible answer in place.
+            childMatrix = self.matrix.copy()
+            childMatrix[self.coord[0]][self.coord[1]] = answer
+
+            # Find the next empty space.
+            nextPos = [self.coord[0], self.coord[1]]
+            pointer = self.matrix[nextPos[0], nextPos[1]]
+            while pointer != 0:
+                pointer = [nextPos[0], nextPos[1]]
+                pass
+            print(nextPos)
+
+            childNode = Node(childMatrix, self.coord[0] + 1, self.coord[1])
+            pass
 
 
 # Main code.
 if __name__ == "__main__":
     inputMatrix = parseInput("testInput.txt")
     node = Node(inputMatrix, 3, 0)
-    print(node.sudokuGrids)
     node.createChildren()
     # print(sudokuGrids)
     pass
