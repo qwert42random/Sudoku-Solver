@@ -80,28 +80,41 @@ class Node:
     def createChildren(self):
         possibleAnswers = self.prunePossibleNumbers()
 
+        # Find the next empty space.
+        nextPos = [self.coord[0], self.coord[1]]
+        pointer = self.matrix[nextPos[1], nextPos[0]]
+
+        while pointer != 0:
+
+            # Iterate accross column to find next empty space. If end of row, go down a row.
+            if nextPos[0] + 1 > 8:
+                nextPos[0] = 0
+                nextPos[1] += 1
+            else:
+                nextPos[0] += 1
+
+            if nextPos[0] > 8:
+                return
+
+            pointer = self.matrix[nextPos[1], nextPos[0]]
+
+        # Iterate through all possible answers.
         for answer in possibleAnswers:
 
             # Create a matrix with the possible answer in place.
             childMatrix = self.matrix.copy()
-            childMatrix[self.coord[0]][self.coord[1]] = answer
+            childMatrix[self.coord[1]][self.coord[0]] = answer
 
-            # Find the next empty space.
-            nextPos = [self.coord[0], self.coord[1]]
-            pointer = self.matrix[nextPos[0], nextPos[1]]
-            while pointer != 0:
-                pointer = [nextPos[0], nextPos[1]]
-                pass
-            print(nextPos)
-
-            childNode = Node(childMatrix, self.coord[0] + 1, self.coord[1])
-            pass
+            # Create new node with updated matrix. 
+            childNode = Node(childMatrix, nextPos[0], nextPos[1])
+            self.children.append(childNode)
 
 
 # Main code.
 if __name__ == "__main__":
     inputMatrix = parseInput("testInput.txt")
-    node = Node(inputMatrix, 3, 0)
+    node = Node(inputMatrix, 2, 0)
+    # node = Node(inputMatrix, 0, 0)
     node.createChildren()
     # print(sudokuGrids)
     pass
