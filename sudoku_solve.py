@@ -49,6 +49,7 @@ class Node:
     def __init__(self, matrix, xPos, yPos):
 
         self.visited = False
+        self.complete = False
         self.matrix = matrix
         self.sudokuGrids = self.obtainGrids()
 
@@ -61,6 +62,7 @@ class Node:
 
     # Calculate the possible numbers for the next child.
     def prunePossibleNumbers(self):
+
         possibleNumbers = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
         # Calculate which grid the current number is in.
@@ -86,14 +88,16 @@ class Node:
 
         while pointer != 0:
 
-            # Iterate accross column to find next empty space. If end of row, go down a row.
+            # Iterate accross column to find next empty space. If end of column, go down a row.
             if nextPos[0] + 1 > 8:
                 nextPos[0] = 0
                 nextPos[1] += 1
             else:
                 nextPos[0] += 1
 
+            # No other empty space on sudoku grid.
             if nextPos[0] > 8:
+                self.complete = True
                 return
 
             pointer = self.matrix[nextPos[1], nextPos[0]]
@@ -109,12 +113,28 @@ class Node:
             childNode = Node(childMatrix, nextPos[0], nextPos[1])
             self.children.append(childNode)
 
+def traverseGraph(currentNode):
+
+    # Create the children of the current node.
+    currentNode.createChildren()
+
+    # Iterate through children of the node.
+    for children in currentNode.children:
+
+        print(children.coord)
+
+        if children.complete == True:
+            print("Finished")
+            print(children.matrix)
+        elif children.visited == False:
+            children.visited = True
+            traverseGraph(children)
 
 # Main code.
 if __name__ == "__main__":
     inputMatrix = parseInput("testInput.txt")
-    node = Node(inputMatrix, 2, 0)
-    # node = Node(inputMatrix, 0, 0)
+    node = Node(inputMatrix, 3, 0)
     node.createChildren()
-    # print(sudokuGrids)
+    print([(children.coord, index) for index, children in enumerate(node.children)])
+    # traverseGraph(node)
     pass
