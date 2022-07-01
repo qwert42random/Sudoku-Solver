@@ -84,8 +84,9 @@ class Node:
 
         # Find the next empty space.
         nextPos = [self.coord[0], self.coord[1]]
-        pointer = self.matrix[nextPos[1], nextPos[0]]
+        pointer = None
 
+        # Find next empty space.
         while pointer != 0:
 
             # Iterate accross column to find next empty space. If end of column, go down a row.
@@ -121,7 +122,7 @@ def traverseGraph(currentNode):
     # Iterate through children of the node.
     for children in currentNode.children:
 
-        print(children.coord)
+        # print(children.coord)
 
         if children.complete == True:
             print("Finished")
@@ -133,8 +134,8 @@ def traverseGraph(currentNode):
 # Main code.
 if __name__ == "__main__":
     inputMatrix = parseInput("testInput.txt")
-    node = Node(inputMatrix, 3, 0)
+    node = Node(inputMatrix, 2, 0)
     node.createChildren()
-    print([(children.coord, index) for index, children in enumerate(node.children)])
-    # traverseGraph(node)
+    # print([(children.coord, index) for index, children in enumerate(node.children)])
+    traverseGraph(node)
     pass
